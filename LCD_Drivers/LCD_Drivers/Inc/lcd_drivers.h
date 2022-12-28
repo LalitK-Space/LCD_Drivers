@@ -30,13 +30,13 @@
 
 
 /* -- APIs Supported by LCD driver -- */
-void LCD_Init(void);			                        // To initialize LCD
-void LCD_SendCommands(uint8_t command);	          // To send Commands
-void LCD_SendChar(uint8_t data);	                // To send char
-void LCD_SendString(char *data);	                // To send string
-void LCD_ClearDisplay(void);		                  // To clear Display
-void LCD_ReturnHome(void);		                    // Display Return Home
-void LCD_SetCursor(uint8_t row, uint8_t column);	// To specify cursor location (Row and Column)
+void LCD_Init(void);                              // To initialize LCD
+void LCD_SendCommands(uint8_t command);           // To send Commands
+void LCD_SendChar(uint8_t data);                  // To send char
+void LCD_SendString(char *data);                  // To send string
+void LCD_ClearDisplay(void);                      // To clear Display
+void LCD_ReturnHome(void);                        // Display Return Home
+void LCD_SetCursor(uint8_t row, uint8_t column);  // To specify cursor location (Row and Column)
 
 
 
