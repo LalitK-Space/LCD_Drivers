@@ -22,11 +22,11 @@
 #define LCD_GPIO_D7		      GPIO_Pin_14	  // LCD D7 is connected to Pin 14
 
 /* -- (Some) LCD Commands -- */
-#define LCD_CMD_4DL_2N_5X8F 			  0x28	// Data Length = 4, Lines = 2, Pixles = 5x8 dots
-#define LCD_CMD_DISPLAY_CURSOR_ON 			  0x0E	// Display and Cursor ON
-#define LCD_CMD_INCREMENT_CURSOR_NO_DISPLAY_SHIFT 			  0x06	// Entry Mode Set
-#define LCD_CMD_DISPLAY_CLEAR 			  0x01	// CLear Display
-#define LCD_CMD_DISPLAY_RETURN_HOME 			  0x02	// Return Home
+#define LCD_CMD_4DL_2N_5X8F 			                  0x28	// Data Length = 4, Lines = 2, Pixles = 5x8 dots
+#define LCD_CMD_DISPLAY_CURSOR_ON 			            0x0E	// Display and Cursor ON
+#define LCD_CMD_INCREMENT_CURSOR_NO_DISPLAY_SHIFT 	0x06	// Entry Mode Set
+#define LCD_CMD_DISPLAY_CLEAR 			                0x01	// CLear Display
+#define LCD_CMD_DISPLAY_RETURN_HOME 			          0x02	// Return Home
 
 
 /* -- APIs Supported by LCD driver -- */
