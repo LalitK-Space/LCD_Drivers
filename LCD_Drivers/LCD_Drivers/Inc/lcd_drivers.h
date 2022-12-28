@@ -12,7 +12,7 @@
 #include "stm32f407xx_gpio_drivers.h"
 
 /* -- Application Configurable Items  -- */
-#define LCD_GPIO_PORT	              GPIOE		  // LCD is connected to GPIO port E
+#define LCD_GPIO_PORT	              GPIOE		  // LCD is connected to GPIO port E		              
 #define LCD_GPIO_RS		      GPIO_Pin_8	  // LCD RS is connected to Pin 8
 #define LCD_GPIO_RW		      GPIO_Pin_9	  // LCD RW is connected to Pin 9
 #define LCD_GPIO_E		      GPIO_Pin_10	  // LCD Enable is connected to Pin 10
