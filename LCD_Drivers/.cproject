@@ -101,7 +101,6 @@
 							<tool id="com.st.stm32cube.ide.mcu.gnu.managedbuild.tool.objcopy.symbolsrec.870711071" name="MCU Output Converter Motorola S-rec with symbols" superClass="com.st.stm32cube.ide.mcu.gnu.managedbuild.tool.objcopy.symbolsrec.593806204"/>
 						</toolChain>
 					</folderInfo>
-					<fileInfo id="com.st.stm32cube.ide.mcu.gnu.managedbuild.config.exe.debug.1176442317.408777946" name="lcd_drivers.h" rcbsApplicability="disable" resourcePath="Device_Drivers/Inc/lcd_drivers.h" toolsToInvoke=""/>
 					<sourceEntries>
 						<entry excluding="Src/lcd_drivers.c|Inc/lcd_drivers.h" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="Device_Drivers"/>
 						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="Inc"/>
