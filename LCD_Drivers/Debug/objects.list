@@ -1,0 +1,6 @@
+"./Device_Drivers/Src/stm32f407xx_gpio_drivers.o"
+"./LCD_Drivers/Src/lcd_drivers.o"
+"./Src/01_LCD_basic.o"
+"./Src/syscalls.o"
+"./Src/sysmem.o"
+"./Startup/startup_stm32f407vgtx.o"

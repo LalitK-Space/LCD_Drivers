@@ -1,0 +1,10 @@
+02:39:35 **** Incremental Build of configuration Debug for project LCD_Drivers ****
+make -j12 all 
+arm-none-eabi-size   LCD_Drivers.elf 
+   text	   data	    bss	    dec	    hex	filename
+   2992	      8	   1568	   4568	   11d8	LCD_Drivers.elf
+Finished building: default.size.stdout
+ 
+
+02:39:35 Build Finished. 0 errors, 0 warnings. (took 172ms)
+

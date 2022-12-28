@@ -1,0 +1,16 @@
+/*
+ * 									lcd_drivers.h
+ *
+ * This file contains all the LCD-related APIs supported by the driver.
+ *
+ */
+
+#ifndef LCD_DRIVERS_INC_LCD_DRIVERS_H_
+#define LCD_DRIVERS_INC_LCD_DRIVERS_H_
+
+/* -- APIs Supported by LCD driver -- */
+
+
+
+
+#endif /* LCD_DRIVERS_INC_LCD_DRIVERS_H_ */

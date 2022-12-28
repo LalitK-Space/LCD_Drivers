@@ -1,0 +1,15 @@
+
+
+
+#include "lcd_drivers.h"
+
+int main(void)
+{
+	while (1)
+	{
+
+		for (uint32_t i = 0; i < (1 * 1000); i++);
+	}
+
+	return 0;
+}

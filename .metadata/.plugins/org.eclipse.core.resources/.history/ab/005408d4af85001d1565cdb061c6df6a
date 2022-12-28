@@ -1,0 +1,397 @@
+/*
+ * 									lcd_drivers.h
+ *
+ *  This file contains LCD driver API implementations.
+ *
+ */
+
+#include "lcd_drivers.h"
+
+/* -- Helper Functions prototypes  -- */
+static void Write_4bits(uint8_t valueToWrite);
+static void LCD_Enable(void);
+
+/* -- Delay Functions Prototypes -- */
+static void Delay_ms(uint32_t ms);
+static void Delay_us(uint32_t us);
+
+/* -- APIs (Definitions) Supported by this LCD driver -- */
+
+/* ---------------------------------------------------------------------------------------------
+ * Name		:	LCD_Init
+ * Description	:	To initialize LCD
+ *
+ * Parameters	:	none (void)
+ * Return Type	:	none (void)
+ * Note		:
+ * -------------------------------------------------------------------------------------------- */
+void LCD_Init(void)
+{
+	/* -- Step 1. Configure the GPIO Pins -- */
+	GPIO_Handle_t lcdPins;
+
+	lcdPins.pGPIOx = LCD_GPIO_PORT;
+
+	// -- Configuring RS Pin
+	lcdPins.GPIO_PinConfig.GPIO_PinMode = GPIO_MODE_OUT;
+	lcdPins.GPIO_PinConfig.GPIO_PinNumber = LCD_GPIO_RS;
+	lcdPins.GPIO_PinConfig.GPIO_PinOPType = GPIO_OP_TYPE_PP;
+	lcdPins.GPIO_PinConfig.GPIO_PinPuPdControl = GPIO_NO_PUPD;
+	lcdPins.GPIO_PinConfig.GPIO_PinSpeed = GPIO_SPEED_VERY_HIGH;
+
+	// Configure RS pin
+	GPIO_Init(&lcdPins);
+
+	// -- Configuring RW Pin
+	lcdPins.GPIO_PinConfig.GPIO_PinNumber = LCD_GPIO_RW;
+	GPIO_Init(&lcdPins);
+
+	//-- Configuring E Pin
+	lcdPins.GPIO_PinConfig.GPIO_PinNumber = LCD_GPIO_E;
+	GPIO_Init(&lcdPins);
+
+	//-- Configuring D4 Pin
+	lcdPins.GPIO_PinConfig.GPIO_PinNumber = LCD_GPIO_D4;
+	GPIO_Init(&lcdPins);
+
+	//-- Configuring D5 Pin
+	lcdPins.GPIO_PinConfig.GPIO_PinNumber = LCD_GPIO_D5;
+	GPIO_Init(&lcdPins);
+
+	//-- Configuring D6 Pin
+	lcdPins.GPIO_PinConfig.GPIO_PinNumber = LCD_GPIO_D6;
+	GPIO_Init(&lcdPins);
+
+	//-- Configuring D7 Pin
+	lcdPins.GPIO_PinConfig.GPIO_PinNumber = LCD_GPIO_D7;
+	GPIO_Init(&lcdPins);
+
+
+	/* -- Step 1 a. RESET all PINs State -- */
+	GPIO_WriteToOutputPin(LCD_GPIO_PORT, LCD_GPIO_RS, RESET);
+	GPIO_WriteToOutputPin(LCD_GPIO_PORT, LCD_GPIO_RW, RESET);
+	GPIO_WriteToOutputPin(LCD_GPIO_PORT, LCD_GPIO_E, SET);
+	GPIO_WriteToOutputPin(LCD_GPIO_PORT, LCD_GPIO_D4, RESET);
+	GPIO_WriteToOutputPin(LCD_GPIO_PORT, LCD_GPIO_D5, RESET);
+	GPIO_WriteToOutputPin(LCD_GPIO_PORT, LCD_GPIO_D6, RESET);
+	GPIO_WriteToOutputPin(LCD_GPIO_PORT, LCD_GPIO_D7, RESET);
+
+	/* -- Step 2. Initialization -- */
+	/*
+	 * 4-Bit Interface
+	 *
+	 * > Power ON
+	 * > Wait for ~40ms
+	 * > Make RS = 0, RW = 0, D7 = 0, D6 = 0, D5 = 1, D4 = 1
+	 * > Wait for ~4.1ms
+	 * > Make RS = 0, RW = 0, D7 = 0, D6 = 0, D5 = 1, D4 = 1
+	 * > Wait for ~100us
+	 * > Make RS = 0, RW = 0, D7 = 0, D6 = 0, D5 = 1, D4 = 1
+	 * > Make RS = 0, RW = 0, D7 = 0, D6 = 0, D5 = 1, D4 = 0
+	 *
+	 * */
+
+	/* -- Step 2a. Wait for ~40ms -- */
+	Delay_ms(40);
+
+	/* -- Step 2b. Make RS = 0, RW = 0, D7 = 0, D6 = 0, D5 = 1, D4 = 1 -- */
+	GPIO_WriteToOutputPin(LCD_GPIO_PORT, LCD_GPIO_RS, RESET);
+	GPIO_WriteToOutputPin(LCD_GPIO_PORT, LCD_GPIO_RW, RESET);
+
+	// For Data bits[D7:D4]
+	Write_4bits(0x3);	// D7 = 0, D6 = 0, D5 = 1, D4 = 1
+
+	/* -- Step 2c. Wait for ~4.1ms -- */
+	Delay_ms(5);
+
+	/* -- Step 2d. Make RS = 0, RW = 0, D7 = 0, D6 = 0, D5 = 1, D4 = 1 -- */
+	GPIO_WriteToOutputPin(LCD_GPIO_PORT, LCD_GPIO_RS, RESET);
+	GPIO_WriteToOutputPin(LCD_GPIO_PORT, LCD_GPIO_RW, RESET);
+
+	// For Data bits[D7:D4]
+	Write_4bits(0x3);	// D7 = 0, D6 = 0, D5 = 1, D4 = 1
+
+	/* -- Step 2e. Wait for ~100us -- */
+	Delay_us(150);
+
+	/* -- Step 2f. Make RS = 0, RW = 0, D7 = 0, D6 = 0, D5 = 1, D4 = 1 -- */
+	GPIO_WriteToOutputPin(LCD_GPIO_PORT, LCD_GPIO_RS, RESET);
+	GPIO_WriteToOutputPin(LCD_GPIO_PORT, LCD_GPIO_RW, RESET);
+
+	// For Data bits[D7:D4]
+	Write_4bits(0x3);	// D7 = 0, D6 = 0, D5 = 1, D4 = 1
+
+	/* -- Step 2g. Make RS = 0, RW = 0, D7 = 0, D6 = 0, D5 = 1, D4 = 0 -- */
+	GPIO_WriteToOutputPin(LCD_GPIO_PORT, LCD_GPIO_RS, RESET);
+	GPIO_WriteToOutputPin(LCD_GPIO_PORT, LCD_GPIO_RW, RESET);
+
+	// For Data Bits
+	Write_4bits(0x2);	// D7 = 0, D6 = 0, D5 = 1, D4 = 0
+
+	/* -- Step 3. Initialization Commands -- */
+
+	// a. Function Set
+	LCD_SendCommands(LCD_CMD_4DL_2N_5X8F);
+
+	// b. Display Control
+	LCD_SendCommands(LCD_CMD_DISPLAY_CURSOR_ON);
+
+	// c. Display Clear
+	LCD_ClearDisplay();
+
+	// d. Entry Mode Set
+	LCD_SendCommands(LCD_CMD_INCREMENT_CURSOR_NO_DISPLAY_SHIFT);
+
+
+}
+
+
+/* ---------------------------------------------------------------------------------------------
+ * Name		:	LCD_SendCommands
+ * Description	:	To Send Commands to LCD
+ *
+ * Parameter 1	:	command (uint8_t)
+ * Return Type	:	none (void)
+ * Note		:
+ * -------------------------------------------------------------------------------------------- */
+void LCD_SendCommands(uint8_t command)
+{
+	/* Step 1.
+	 * Make:
+	 * 	> RS = 0 (To select Instruction Register)
+	 * 	> RW = 0 (To write to LCD)
+	 *
+	 * */
+	GPIO_WriteToOutputPin(LCD_GPIO_PORT, LCD_GPIO_RS, RESET);
+	GPIO_WriteToOutputPin(LCD_GPIO_PORT, LCD_GPIO_RW, RESET);
+
+	/* -- Step 2. First send higher nibble of the command code to data lines -- */
+	/*
+	 * [7][6][5][4][3][2][1][0]
+
+	 * Higher Nibble : [7][6][5][4]
+	 *    [7] -> D4
+	 *    [6] -> D5
+	 *    [5] -> D6
+  	 *	  [4] -> D7
+	 * Lower Nibble  : [3][2][1][0]
+     *    [0] -> D4
+	 *	  [1] -> D5
+	 *	  [2] -> D6
+  	 *	  [3] -> D7
+	 *
+	 * */
+	Write_4bits(command >> 4);		// Higher Nibble of the command
+
+	/* -- Step 3. Send lower nibble of the command code to data lines -- */
+	Write_4bits(command & 0x0F);		// Lower Nibble of the command
+
+}
+
+
+/* ---------------------------------------------------------------------------------------------
+ * Name		:	LCD_SendChar
+ * Description	:	To Send data to LCD (char)
+ *
+ * Parameter 1	:	data (uint8_t)
+ * Return Type	:	none (void)
+ * Note		:
+ * -------------------------------------------------------------------------------------------- */
+void LCD_SendChar(uint8_t data)
+{
+	/* Step 1.
+	 * Make:
+	 * 	> RS = 1 (To select Data Register)
+	 * 	> RW = 0 (To write to LCD)
+	 *
+	 * */
+	GPIO_WriteToOutputPin(LCD_GPIO_PORT, LCD_GPIO_RS, SET);
+	GPIO_WriteToOutputPin(LCD_GPIO_PORT, LCD_GPIO_RW, RESET);
+
+	/* -- Step 2. First send higher nibble of the data to data lines -- */
+	/*
+	 * [7][6][5][4][3][2][1][0]
+
+	 * Higher Nibble : [7][6][5][4]
+	 *    [7] -> D4
+	 *    [6] -> D5
+	 *    [5] -> D6
+  	 *	  [4] -> D7
+	 * Lower Nibble  : [3][2][1][0]
+     *    [0] -> D4
+	 *	  [1] -> D5
+	 *	  [2] -> D6
+  	 *	  [3] -> D7
+	 *
+	 * */
+	Write_4bits(data >> 4);
+
+	/* -- Step 3. Send lower nibble of the data to data lines -- */
+	Write_4bits(data & 0x0F);
+
+}
+
+
+/* ---------------------------------------------------------------------------------------------
+ * Name		:	LCD_SendString
+ * Description	:	To Send data to LCD (String)
+ *
+ * Parameter 1	:	pointer to string (data) (char *)
+ * Return Type	:	none (void)
+ * Note		:
+ * -------------------------------------------------------------------------------------------- */
+void LCD_SendString(char *data)
+{
+	do
+	{
+		LCD_SendChar((uint8_t)*data++);
+	}
+	while(*data != '\0');
+
+}
+
+
+/* ---------------------------------------------------------------------------------------------
+ * Name		:	LCD_ClearDisplay
+ * Description	:	To clear LCD Display
+ *
+ * Parameters	:	none (void)
+ * Return Type	:	none (void)
+ * Note		:
+ * -------------------------------------------------------------------------------------------- */
+void LCD_ClearDisplay(void)
+{
+	// a. Clear Display
+	LCD_SendCommands(LCD_CMD_DISPLAY_CLEAR);
+
+	// b. Wait for ~2ms
+	Delay_ms(2);
+
+}
+
+
+/* ---------------------------------------------------------------------------------------------
+ * Name		:	LCD_ReturnHome
+ * Description	:	To Return Home
+ *
+ * Parameters	:	none (void)
+ * Return Type	:	none (void)
+ * Note		:
+ * -------------------------------------------------------------------------------------------- */
+void LCD_ReturnHome(void)
+{
+	// a. Return Home
+	LCD_SendCommands(LCD_CMD_DISPLAY_RETURN_HOME);
+
+	// b. Wait for ~2ms
+	Delay_ms(2);
+}
+
+
+/* ---------------------------------------------------------------------------------------------
+ * Name		:	LCD_SetCursor
+ * Description	:	To Specify Cursor Location (Row and Column)
+ *
+ * Parameter 1 	:	row (uint8_t)
+ * Parameter 2 	:	column (uint8_t)
+ * Return Type	:	none (void)
+ * Note		:	Possible values:	row		: 1 or 2	(for 16x2 display)
+ * 									column	: 1 to 16
+ * -------------------------------------------------------------------------------------------- */
+void LCD_SetCursor(uint8_t row, uint8_t column)
+{
+	column--;
+
+	switch(row)
+	{
+	case 1:
+		// Set Cursor to 1st Row and add Index
+		LCD_SendCommands((column |= 0x80));
+		break;
+	case 2:
+		// Set Cursor to 2nd Row and add index
+		LCD_SendCommands((column |= 0xC0));
+		break;
+	default:
+		break;
+	}
+
+}
+
+
+/* -- Helper Functions prototypes  -- */
+
+/* ---------------------------------------------------------------------------------------------
+ * Name		:	write_4bits
+ * Description	:	Helper function
+ *
+ * Parameters	:	valueToWrite (uint8_t)
+ * Return Type	:	none (void)
+ * Note		:	write given data or command to LCD via D7 D6 D5 D4 (4-Bit Interfacing)
+ * -------------------------------------------------------------------------------------------- */
+static void Write_4bits(uint8_t valueToWrite)
+{
+	// Write to LCD
+	GPIO_WriteToOutputPin(LCD_GPIO_PORT, LCD_GPIO_D4, ((valueToWrite >> 0) & 0x1));
+	GPIO_WriteToOutputPin(LCD_GPIO_PORT, LCD_GPIO_D5, ((valueToWrite >> 1) & 0x1));
+	GPIO_WriteToOutputPin(LCD_GPIO_PORT, LCD_GPIO_D6, ((valueToWrite >> 2) & 0x1));
+	GPIO_WriteToOutputPin(LCD_GPIO_PORT, LCD_GPIO_D7, ((valueToWrite >> 3) & 0x1));
+
+	// Instruct LCD to latch provided data
+	LCD_Enable();
+}
+
+
+/* ---------------------------------------------------------------------------------------------
+ * Name		:	LCD_Enable
+ * Description	:	Helper function
+ *
+ * Parameters	:	none (void)
+ * Return Type	:	none (void)
+ * Note		:	After sending data or an instruction to the LCD,
+ * 				a HIGH to LOW signal transition is provided on ENABLE pin for the LCD
+ * 				to latch data on the data lines.
+ * -------------------------------------------------------------------------------------------- */
+static void LCD_Enable(void)
+{
+	// HIGH
+	GPIO_WriteToOutputPin(LCD_GPIO_PORT, LCD_GPIO_E, 1);
+
+	// Wait for some time
+	Delay_us(50);
+
+	// LOW
+	GPIO_WriteToOutputPin(LCD_GPIO_PORT, LCD_GPIO_E, 0);
+
+	// Wait for some time
+	Delay_us(300);
+}
+
+
+
+/* ---------------------------------------------------------------------------------------------
+ * Name		:	Delay_ms
+ * Description	:	Delay function [NOT PRECISE]
+ *
+ * Parameters	:	ms (milliseconds)(uint32_t)
+ * Return Type	:	none (void)
+ * Note		:	Software based delay
+ * -------------------------------------------------------------------------------------------- */
+static void Delay_ms(uint32_t ms)
+{
+	for (uint32_t i = 0; i < (ms * 1000); i++);
+}
+
+
+/* ---------------------------------------------------------------------------------------------
+ * Name		:	Delay_us
+ * Description	:	Delay function [NOT PRECISE]
+ *
+ * Parameters	:	us (microseconds)(uint32_t)
+ * Return Type	:	none (void)
+ * Note		:	Software based delay
+ * -------------------------------------------------------------------------------------------- */
+static void Delay_us(uint32_t us)
+{
+	for (uint32_t i = 0; i < (us * 1); i++);
+}

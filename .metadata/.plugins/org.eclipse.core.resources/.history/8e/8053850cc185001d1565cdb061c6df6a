@@ -1,0 +1,28 @@
+
+
+
+#include "lcd_drivers.h"
+#include <stdio.h>
+
+int main(void)
+{
+	LCD_Init();
+
+	LCD_SendString("..LCD DRIVERS.. ");
+	LCD_SetCursor(2, 1);
+
+	float sensor = 12.456;
+
+	char sensorData[100];
+
+	fprintf(sensor, "%f" , sensorData);
+
+	LCD_SendString(sensorData);
+
+
+	while(1);
+
+	return 0;
+}
+
+

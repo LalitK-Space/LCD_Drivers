@@ -1,0 +1,11 @@
+../LCD_Drivers/Src/lcd_drivers.c:28:6:LCD_Init	24	static
+../LCD_Drivers/Src/lcd_drivers.c:157:6:LCD_SendCommands	16	static
+../LCD_Drivers/Src/lcd_drivers.c:200:6:LCD_SendChar	16	static
+../LCD_Drivers/Src/lcd_drivers.c:243:6:LCD_SendString	16	static
+../LCD_Drivers/Src/lcd_drivers.c:262:6:LCD_ClearDisplay	8	static
+../LCD_Drivers/Src/lcd_drivers.c:281:6:LCD_ReturnHome	8	static
+../LCD_Drivers/Src/lcd_drivers.c:301:6:LCD_SetCursor	16	static
+../LCD_Drivers/Src/lcd_drivers.c:332:13:Write_4bits	16	static
+../LCD_Drivers/Src/lcd_drivers.c:355:13:LCD_Enable	8	static
+../LCD_Drivers/Src/lcd_drivers.c:380:13:Delay_ms	24	static
+../LCD_Drivers/Src/lcd_drivers.c:394:13:Delay_us	24	static

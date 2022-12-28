@@ -1,0 +1,21 @@
+
+
+
+#include "lcd_drivers.h"
+#include <stdio.h>
+
+int main(void)
+{
+	LCD_Init();
+
+	LCD_SendString("..LCD DRIVERS.. ");
+	LCD_SetCursor(2, 1);
+	LCD_SendString("..LCD DRIVERS.. ");
+
+
+	while(1);
+
+	return 0;
+}
+
+

@@ -1,0 +1,23 @@
+
+
+
+#include "lcd_drivers.h"
+
+int main(void)
+{
+	LCD_Init();
+
+	LCD_SendString("Lalit..");
+
+	char a = 'a';
+
+	for (uint8_t i = 0; i < 25; i++)
+	{
+		LCD_SetCursor(2, 0);
+		LCD_SendChar(a+i);
+	}
+
+	while(1);
+
+	return 0;
+}

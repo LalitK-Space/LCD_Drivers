@@ -1,0 +1,30 @@
+/*
+ * 									lcd_drivers.h
+ *
+ * This file contains all the LCD-related APIs supported by the driver.
+ *
+ */
+
+#ifndef LCD_DRIVERS_INC_LCD_DRIVERS_H_
+#define LCD_DRIVERS_INC_LCD_DRIVERS_H_
+
+#include "stm32f407xx.h"
+#include "stm32f407xx_gpio_drivers.h"
+
+/* -- Application Configurable Items  -- */
+#define LCD_GPIO_PORT	GPIOD		// LCD is connected to GPIO port D
+#define LCD_GPIO_RS		GPIO_Pin_0	// LCD RS is connected to Pin 0
+#define LCD_GPIO_RW		GPIO_Pin_1	// LCD RW is connected to Pin 1
+#define LCD_GPIO_E		GPIO_Pin_2	// LCD Enable is connected to Pin 2
+#define LCD_GPIO_E		GPIO_Pin_3	// LCD D4 is connected to Pin 2
+#define LCD_GPIO_E		GPIO_Pin_4	// LCD D5 is connected to Pin 2
+#define LCD_GPIO_E		GPIO_Pin_5	// LCD D6 is connected to Pin 2
+#define LCD_GPIO_E		GPIO_Pin_6	// LCD D7 is connected to Pin 2
+
+
+/* -- APIs Supported by LCD driver -- */
+
+
+
+
+#endif /* LCD_DRIVERS_INC_LCD_DRIVERS_H_ */
