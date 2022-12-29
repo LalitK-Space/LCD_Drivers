@@ -1,7 +1,7 @@
 # LCD_Drivers
 LCD drivers implementation for STM32F407x-based processors.
 * The project is developed in STM32Cube IDE.
-* Here are the [GPIO Drivers](https://github.com/LalitK-Space/Driver_Development) GPIO drivers used in this project.
+* Here are the [GPIO Drivers](https://github.com/LalitK-Space/Driver_Development) used in this project.
 
 ## Description
  General description of developed source and header files
@@ -21,3 +21,8 @@ LCD drivers implementation for STM32F407x-based processors.
         2. `stm32f407xx_gpio_drivers.h` (GPIO-specific APIs)
     * The *Src* folder contains the following:
         1. `stm32f407xx_gpio_drivers.c` (GPIO drivers implementation)
+
+* Example applications are located in the 'Src' folder.
+<br>`LCD_Drivers > Src` </br>
+
+
