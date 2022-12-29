@@ -25,4 +25,6 @@ LCD drivers implementation for STM32F407x-based processors.
 * Example applications are located in the 'Src' folder.
 <br>`LCD_Drivers > Src` </br>
 
+## In action
+![example](LCD_Driver.jpg)
 
