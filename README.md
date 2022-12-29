@@ -5,6 +5,14 @@ LCD drivers implementation for STM32F407x-based processors.
 
 ## Description
  General description of developed source and header files
+  * LCD specific drivers are located in 'LCD_Drivers' folder.
+ <br> `LCD_Drivers > LCD_Drivers` </br>
+    * The 'LCD_Drivers' folder contains two sub-folders: *Inc* and *Src*.
+    * The *Inc* folder contains the following:
+        1. `lcd_drivers.h` (LCD-specific APIs)
+    * The *Src* folder contains the following:
+    1. `lcd_drivers.c` (LCD drivers implementation)
+ 
  * Device specific (GPIO) drivers are located in 'Device_Drivers' folder.
  <br> `LCD_Drivers > Device Drivers` </br>
     * The 'Device_Drivers' folder contains two sub-folders: *Inc* and *Src*.
@@ -14,11 +22,5 @@ LCD drivers implementation for STM32F407x-based processors.
     * The *Src* folder contains the following:
     1. `stm32f407xx_gpio_drivers.c` (GPIO drivers implementation)
 
- * LCD specific drivers are located in 'LCD_Drivers' folder.
- <br> `LCD_Drivers > LCD_Drivers` </br>
-    * The 'LCD_Drivers' folder contains two sub-folders: *Inc* and *Src*.
-    * The *Inc* folder contains the following:
-        1. `lcd_drivers.h` (LCD-specific APIs)
-    * The *Src* folder contains the following:
-    1. `lcd_drivers.c` (LCD drivers implementation)
+
 
