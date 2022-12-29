@@ -8,7 +8,7 @@ int main(void)
 {
 	LCD_Init();
 
-	LCD_SendString(" ...TESTING...  ");
+	LCD_SendString("..LCD DRIVERS..");
 	LCD_SetCursor(2, 1);
 	LCD_SendString("www.lalitk.space");
 
